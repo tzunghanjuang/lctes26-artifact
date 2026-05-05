@@ -1,5 +1,8 @@
 FROM ubuntu:latest
 
+ENV SBT_OPTS="-Xms1G -Xmx6G -XX:+UseG1GC -XX:MaxMetaspaceSize=1G"
+ENV JAVA_OPTS="-Xms1G -Xmx6G"
+
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Install base tools, Python
