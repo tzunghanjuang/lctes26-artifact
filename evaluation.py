@@ -37,11 +37,10 @@ class PhaseConfig:
 
 @dataclass
 class Experiment:
-    """Description of one experiment (EqSat + optional lowering)."""
+    """Description of one experiment (Lowering)."""
 
     id: str
     description: str
-    eqsat: Optional[PhaseConfig]
     lowering: Optional[PhaseConfig]
     figure: Optional[PhaseConfig]
 
@@ -118,23 +117,6 @@ def run_sbt_test(repo_dir: str, test_path: str, expect_failure: bool = False) ->
             raise subprocess.CalledProcessError(result.returncode, cmd)
 
 
-def run_eqsat_phase(exp: Experiment, cfg: PhaseConfig) -> None:
-    repo = shir_repo_dir(cfg.branch)
-    print(f"\n==== EqSat phase: {exp.id} ({exp.description}) ====")
-    before = snapshot_files(repo)
-    run_sbt_test(repo, cfg.path, expect_failure=cfg.expect_failure)
-    after = snapshot_files(repo)
-    new_files = after - before
-
-    if not new_files:
-        print("[WARN] No new files detected for EqSat phase; nothing to copy.")
-        return
-
-    dest = os.path.join(RESULTS_DIR, exp.id, "eqsat")
-    print(f"Copying {len(new_files)} new file(s) to {dest}")
-    copy_relative_paths(repo, new_files, dest)
-
-
 def run_lowering_phase(exp: Experiment, cfg: PhaseConfig) -> None:
     repo = shir_repo_dir(cfg.branch)
     out_dir = os.path.join(repo, "out")
@@ -190,274 +172,73 @@ def recursive_chmod(path, mode):
 
 EXPERIMENTS: List[Experiment] = [
     Experiment(
-        id="1-vgg",
-        description="1. VGG",
-        eqsat=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/SingleVGGTest.scala",
-        ),
+        id="expt-1",
+        description="VGG16-Half",
         lowering=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/algo/vgg8bits/VggFullBiasTest.scala",
+            branch="routable-network-setup",
+            path="src/test/backend/hdl/arch/programmable/testVGGUnit16BitHalf",
         ),
         figure=None,
-    ),
+    )
     Experiment(
-        id="3-tinyyolo",
-        description="3. TinyYolo",
-        eqsat=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/SingleYoloTest.scala",
-        ),
+        id="expt-2",
+        description="VGG16-Full",
         lowering=PhaseConfig(
-            branch="new-test-tag-y",
-            path="src/test/backend/hdl/arch/yolo/ShallowConvFullTest.scala",
+            branch="routable-network-setup",
+            path="src/test/backend/hdl/arch/programmable/testVGGUnit16Bit",
         ),
         figure=None,
     ),
     Experiment(
-        id="6-self-attention",
-        description="6. Self-attention",
-        eqsat=PhaseConfig(
-            branch="eqsat-nn-extra-sync",
-            path="src/test/eqsat/nnExtra/SelfAttentionTest.scala",
-        ),
+        id="expt-3",
+        description="TinyYolo-v2",
         lowering=PhaseConfig(
-            branch="eqsat-nn-extra-sync",
-            path="src/test/eqsat/nnExtra/SelfAttentionLoweringTest.scala",
+            branch="routable-network-setup",
+            path="src/test/backend/hdl/arch/programmable/testTinyYoloV2Unit",
         ),
         figure=None,
     ),
     Experiment(
-        id="8-stencil-4stage",
-        description="8. 4-stage stencil",
-        eqsat=PhaseConfig(
-            branch="eqsat-nn-extra-sync",
-            path="src/test/eqsat/nnExtra/StencilTest.scala",
-        ),
+        id="expt-4",
+        description="ResNet50-Quarter",
         lowering=PhaseConfig(
-            branch="eqsat-nn-extra-sync",
-            path="src/test/eqsat/nnExtra/StencilLoweringTest.scala",
+            branch="routable-network-setup",
+            path="src/test/backend/hdl/arch/programmable/generateModelQuarter",
         ),
         figure=None,
     ),
     Experiment(
-        id="9-stencil-baseline",
-        description="9. 4-stage stencil baseline",
-        eqsat=None,
+        id="expt-5",
+        description="ResNet50-Third",
         lowering=PhaseConfig(
-            branch="eqsat-nn-extra-sync",
-            path="src/test/eqsat/nnExtra/StencilNoSharingTest.scala",
+            branch="routable-network-setup",
+            path="src/test/backend/hdl/arch/programmable/generateModelThird",
         ),
         figure=None,
     ),
     Experiment(
-        id="10-vgg-no-sharing",
-        description="10. VGG, no sharing",
-        eqsat=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/SingleVGGNoSharingTest.scala",
-            expect_failure=True,
-        ),
-        lowering=None,
-        figure=None,
-    ),
-    Experiment(
-        id="11-vgg-no-padding",
-        description="11. VGG, no padding",
-        eqsat=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/SingleVggNoPaddingTest.scala",
-            expect_failure=True,
-        ),
-        lowering=None,
-        figure=None,
-    ),
-    Experiment(
-        id="12-vgg-no-tiling",
-        description="12. VGG, no tiling",
-        eqsat=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/SingleVGGNoTilingTest.scala",
-            expect_failure=True,
-        ),
-        lowering=None,
-        figure=None,
-    ),
-    Experiment(
-        id="13-vgg-baseline-no-sharing",
-        description="13. VGG, baseline, no sharing",
-        eqsat=None,
+        id="expt-6",
+        description="ResNet50-Half",
         lowering=PhaseConfig(
-            branch="eqsat-nn-extra-sync",
-            path="src/test/eqsat/nnExtra/VGGLoweringTest.scala",
+            branch="routable-network-setup",
+            path="src/test/backend/hdl/arch/programmable/generateModelHalf",
         ),
         figure=None,
     ),
     Experiment(
-        id="14-vgg-skeleshare-1abstr",
-        description="14. VGG, SkeleShare, 1 abstr",
-        eqsat=PhaseConfig(
-            branch="new-test-tag-abs",
-            path="src/test/eqsat/nn/SingleVGGHalfAbsTest.scala",
-        ),
+        id="expt-7",
+        description="ResNet50-Full",
         lowering=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/algo/vgg8bits/VggHalfAbsTest.scala",
+            branch="routable-network-setup",
+            path="src/test/backend/hdl/arch/programmable/generateModel",
         ),
         figure=None,
-    ),
-    Experiment(
-        id="15-vgg-quarter-dsps",
-        description="15. VGG, 1/4 DSPs",
-        eqsat=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/SingleVGGFourthDSPTest.scala",
-        ),
-        lowering=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/algo/vgg8bits/VggFourthDSPTest.scala",
-        ),
-        figure=None,
-    ),
-    Experiment(
-        id="17-vgg-half-dsps",
-        description="17. VGG, 1/2 DSPs",
-        eqsat=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/SingleVGGHalfDSPTest.scala",
-        ),
-        lowering=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/algo/vgg8bits/VggHalfDspTest.scala",
-        ),
-        figure=None,
-    ),
-    Experiment(
-        id="A-vgg-enodes",
-        description="A. VGG ENodes",
-        eqsat=None,
-        lowering=None,
-        figure=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/VGGEnodesTest.scala",
-        ),
-    ),
-    Experiment(
-        id="B-vgg-saturation",
-        description="B. VGG Saturation",
-        eqsat=None,
-        lowering=None,
-        figure=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/VGGSaturationTest.scala",
-        ),
-    ),
-    Experiment(
-        id="B-vgg-extraction-1to5",
-        description="B. VGG Extration 1to5",
-        eqsat=None,
-        lowering=None,
-        figure=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/extraction/data1to5.scala",
-        ),
-    ),
-    Experiment(
-        id="B-vgg-extraction-6",
-        description="B. VGG Extration 6",
-        eqsat=None,
-        lowering=None,
-        figure=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/extraction/data6.scala",
-        ),
-    ),
-    Experiment(
-        id="B-vgg-extraction-7",
-        description="B. VGG Extration 7",
-        eqsat=None,
-        lowering=None,
-        figure=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/extraction/data7.scala",
-        ),
-    ),
-    Experiment(
-        id="B-vgg-extraction-8",
-        description="B. VGG Extration 8",
-        eqsat=None,
-        lowering=None,
-        figure=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/extraction/data8.scala",
-        ),
-    ),
-    Experiment(
-        id="B-vgg-extraction-9",
-        description="B. VGG Extration 9",
-        eqsat=None,
-        lowering=None,
-        figure=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/extraction/data9.scala",
-        ),
-    ),
-    Experiment(
-        id="B-vgg-extraction-10",
-        description="B. VGG Extration 10",
-        eqsat=None,
-        lowering=None,
-        figure=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/extraction/data10.scala",
-        ),
-    ),
-    Experiment(
-        id="B-vgg-extraction-11",
-        description="B. VGG Extration 11",
-        eqsat=None,
-        lowering=None,
-        figure=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/extraction/data11.scala",
-        ),
-    ),
-    Experiment(
-        id="B-vgg-extraction-12",
-        description="B. VGG Extration 12",
-        eqsat=None,
-        lowering=None,
-        figure=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/extraction/data12.scala",
-        ),
-    ),
-    Experiment(
-        id="B-vgg-extraction-13",
-        description="B. VGG Extration 13",
-        eqsat=None,
-        lowering=None,
-        figure=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/extraction/data13.scala",
-        ),
-    ),
-    Experiment(
-        id="B-vgg-extraction-14",
-        description="B. VGG Extration 14",
-        eqsat=None,
-        lowering=None,
-        figure=PhaseConfig(
-            branch="new-test-tag",
-            path="src/test/eqsat/nn/extraction/data14.scala",
-        ),
     ),
 ]
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run SHIR EqSat and lowering experiments.")
+    parser = argparse.ArgumentParser(description="Run SHIR  lowering experiments.")
     parser.add_argument(
         "--only",
         type=str,
@@ -466,7 +247,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--phase",
-        choices=["eqsat", "lowering", "both", "figure"],
+        choices=["lowering"],
         default="lowering",
         help="The phases to run for each experiment.",
     )
@@ -503,11 +284,6 @@ def main() -> None:
         if args.phase in ("lowering", "both") and exp.lowering is not None:
             run_lowering_phase(exp, exp.lowering)
         elif args.phase in ("lowering", "both") and exp.lowering is None:
-            print(f"\n==== Lowering phase: {exp.id} has no lowering configuration; skipping ====")
-
-        if args.phase in ("figure") and exp.figure is not None:
-            run_eqsat_phase(exp, exp.figure)
-        elif args.phase in ("lowering", "both") and exp.figure is None:
             print(f"\n==== Lowering phase: {exp.id} has no lowering configuration; skipping ====")
 
     recursive_chmod(RESULTS_DIR, 0o777)

@@ -92,6 +92,26 @@ export SCRIPTDIR=$(pwd)/results/scripts
 echo $SCRIPTDIR
 ```
 
+#### 3.1 Run each test independently
+Run the following command to execute the experimental options listed above:
+
+```bash
+docker run --rm -it \
+  --mount type=bind,src=./results,dst=/workspace/results \
+  ghcr.io/jonathanvdc/skeleshare-cgo26-artifact:latest \
+  python3 evaluation.py --phase figure --only <experiment-id>
+```
+
+These experiment IDs are:
+
+- `expt-1`
+- `expt-2`
+- `expt-3`
+- `expt-4`
+- `expt-5`
+- `expt-6`
+- `expt-7`
+
 ### 4. Running synthesized designs
 
 Because synthesis typically takes **4–8 hours per benchmark** in the paper, we provide pre-synthesized designs that correspond exactly to the VHDL generated for each experiment. 
@@ -141,6 +161,7 @@ These experiment IDs are:
 - `expt-4`
 - `expt-5`
 - `expt-6`
+- `expt-7`
 
 The output adheres to the following format and can be directly cross-referenced with Table 2 in the paper.
 
@@ -154,17 +175,13 @@ GOP/s : 169.936
 
 ## Plotting Figures 15 and 16
 
-To reproduce Figure 12(a), run the following commands to extract the data points for the e-node counts:
+To reproduce Figures 15 and 17, run the following commands to draw the figures with pre-computed data points:
 
 ```bash
 docker run --rm -it \
   --mount type=bind,src=./results,dst=/workspace/results \
   ghcr.io/tzunghanjuang/lctes26-artifact:latest \
-  python3 evaluation.py --phase figure --only A-vgg-enodes
+  python3 figures/draw.py
 ```
 
-To generate the figure, navigate to the experiment’s `results/A-vgg-enodes/eqsat` directory and run:
-
-```bash
-pdflatex $SCRIPTDIR/figures/test.tex
-```
+The generated figures will be `results/rooflines.pdf` for figure 15 and `results/vgg16_runtime.pdf` for figure 16

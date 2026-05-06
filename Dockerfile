@@ -24,8 +24,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libopenblas-dev \
  && rm -rf /var/lib/apt/lists/*
 
-# RUN pip3 install z3-solver
-
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
 
@@ -56,7 +54,7 @@ WORKDIR /workspace
 # Clone SHIR repo branches into separate subdirectories
 RUN git clone -b routable-network-setup --single-branch --depth 1 --recursive --shallow-submodules https://bitbucket.org/cdubach/shir /workspace/shir-routable-network-setup
 
-# Precompile the test suites for all three branches
+# Precompile the test suites for all branches
 RUN cd /workspace/shir-routable-network-setup && sbt test:compile
 
 # Copy the repo into the container
