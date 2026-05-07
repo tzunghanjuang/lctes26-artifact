@@ -99,7 +99,7 @@ Run the following command to execute the experimental options listed above:
 docker run --rm -it \
   --mount type=bind,src=./results,dst=/workspace/results \
   ghcr.io/jonathanvdc/skeleshare-cgo26-artifact:latest \
-  python3 evaluation.py --phase figure --only <experiment-id>
+  python3 evaluation.py --only <experiment-id>
 ```
 
 These experiment IDs are:
