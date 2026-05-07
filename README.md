@@ -38,16 +38,22 @@ wget https://zenodo.org/records/20046007/files/99.zip
 ```
 
 After downloading the artifact, please unzip it and enter the unzipped directory. In this artifact, we sticks to the base folder ``99/``.
-``` bash
+```bash
 unzip 99.zip 
 cd 99
 ```
 
 In the directory, please run the following commands to unzip the inner files.
-``` bash
+```bash
 unzip data.zip 
 tar -xvzf pre_synthesis_cleaned.tar.gz
 tar -xvzf venv.tar.gz
+unzip ./lctes26-artifact_image.zip
+```
+
+Please make sure to set current folder as the `BASEDIR`.
+``` bash
+export BASEDIR="$(pwd)"
 ```
 
 ### 4. Folder Structure
@@ -63,7 +69,7 @@ After unzipping the files in the previous sectiond the folder structure is as fo
 ├── venv                   # Python virtual environment
 ├── figures.py             # Python script to draw Figure 15 and 6
 ├── profile                # FPGA tool chain setup script (for the reference server with a Intel PAC card)
-└── lctes26-docker.zip     # Docker immage for running the compiler infrastructure
+└── lctes26-docker.tar     # Docker immage for running the compiler infrastructure
 ```
 
 The Docker image ``lctes26-docker.zip`` in this artifact reproduces the paper's accelerator HDL files, which are required for Table 2.
@@ -75,14 +81,16 @@ The virtual environment ``venv`` are required to run the pytorch interface to ex
 
 The steps below walk you through the complete workflow for evaluating using our Docker image and python virtual evironment.
 
-In this artifact, we sticks to the base folder ``99/``.
+In this artifact, we sticks to the ``BASEDIR`` in ``99/``. Please run the following command to check if the setup is correct. It will print out a path ending with ``99``.
+```bash
+echo $BASEDIR
+```
 
 
 ### 1. Load the Docker image
 The docker image can be loaded with the folling command.
 
 ```bash
-unzip ./lctes26-artifact_image.zip
 docker load -i ./lctes26-artifact.tar
 ```
 
