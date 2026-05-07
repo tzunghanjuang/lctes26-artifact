@@ -172,7 +172,7 @@ def recursive_chmod(path, mode):
 
 EXPERIMENTS: List[Experiment] = [
     Experiment(
-        id="expt-1",
+        id="expt-3",
         description="VGG16-Half",
         lowering=PhaseConfig(
             branch="routable-network-setup",
@@ -181,7 +181,7 @@ EXPERIMENTS: List[Experiment] = [
         figure=None,
     )
     Experiment(
-        id="expt-2",
+        id="expt-4",
         description="VGG16-Full",
         lowering=PhaseConfig(
             branch="routable-network-setup",
@@ -190,7 +190,7 @@ EXPERIMENTS: List[Experiment] = [
         figure=None,
     ),
     Experiment(
-        id="expt-3",
+        id="expt-6",
         description="TinyYolo-v2",
         lowering=PhaseConfig(
             branch="routable-network-setup",
@@ -199,7 +199,7 @@ EXPERIMENTS: List[Experiment] = [
         figure=None,
     ),
     Experiment(
-        id="expt-4",
+        id="expt-8",
         description="ResNet50-Quarter",
         lowering=PhaseConfig(
             branch="routable-network-setup",
@@ -208,7 +208,7 @@ EXPERIMENTS: List[Experiment] = [
         figure=None,
     ),
     Experiment(
-        id="expt-5",
+        id="expt-9",
         description="ResNet50-Third",
         lowering=PhaseConfig(
             branch="routable-network-setup",
@@ -217,7 +217,7 @@ EXPERIMENTS: List[Experiment] = [
         figure=None,
     ),
     Experiment(
-        id="expt-6",
+        id="expt-10",
         description="ResNet50-Half",
         lowering=PhaseConfig(
             branch="routable-network-setup",
@@ -226,7 +226,7 @@ EXPERIMENTS: List[Experiment] = [
         figure=None,
     ),
     Experiment(
-        id="expt-7",
+        id="expt-11",
         description="ResNet50-Full",
         lowering=PhaseConfig(
             branch="routable-network-setup",
