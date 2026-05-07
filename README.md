@@ -14,7 +14,6 @@ LCTES26-ARTIFACT
 ├── scripts             # Scripts for reproducing results
 │   ├── figures         # Python scripts for producing figures 15 and s16
 │   ├── scores          # Scripts for print performance and resource numbers in Table 2
-│   ├── syntest         # Wraper for synthesis
 │   └── profile         # Sample enviroment setup for FPGA
 ├── Dockerfile          
 ├── evaluation.py       # Main experiment script
