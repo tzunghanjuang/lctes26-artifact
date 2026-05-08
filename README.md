@@ -236,6 +236,11 @@ These experiment IDs are:
 - `expt-10`
 - `expt-11`
 
+<!-- We also include the following experiments from the prior work (only FPGA bitstreams, no compiling infra is included). Note that `expt-7` is not included. 
+- `expt-1`
+- `expt-2`
+- `expt-5` -->
+
 
 The output adheres to the following format and can be directly cross-referenced with Table 2 in the paper.
 
@@ -247,15 +252,20 @@ GOP/s : 169.936
 ```
 
 
-## Plotting Figures 15 and 16
+## Plot Figures 15 and 16
 
-To reproduce Figures 15 and 17, run the following commands to draw the figures with pre-computed data points:
+To reproduce Figures 15 and 16, run the following commands to draw the figures with pre-computed data points:
 
 ```bash
-docker run --rm -it \
-  --mount type=bind,src=./results,dst=/workspace/results \
-  ghcr.io/tzunghanjuang/lctes26-artifact:latest \
-  python3 figures/draw.py
+python draw.py
 ```
 
 The generated figures will be `results/rooflines.pdf` for figure 15 and `results/vgg16_runtime.pdf` for figure 16
+
+
+## Produce Table 3
+
+To reproduce Table 3, run the following commands to print out the numbers in the table:
+```bash
+python table3.py
+```
