@@ -53,9 +53,12 @@ WORKDIR /workspace
 
 # Clone SHIR repo branches into separate subdirectories
 RUN git clone -b routable-network-setup --single-branch --depth 1 --recursive --shallow-submodules https://bitbucket.org/cdubach/shir /workspace/shir-routable-network-setup
+RUN git clone -b routable-network-marked --single-branch --depth 1 --recursive --shallow-submodules https://bitbucket.org/cdubach/shir /workspace/shir-routable-network-marked
+
 
 # Precompile the test suites for all branches
 RUN cd /workspace/shir-routable-network-setup && sbt test:compile
+RUN cd /workspace/shir-routable-network-marked && sbt test:compile
 
 # Copy the repo into the container
 # COPY --chown=${USERNAME}:${USERNAME} . /workspace
