@@ -128,7 +128,7 @@ Run the following command to execute the experimental options listed below:
 ```bash
 docker run --rm -it \
   --mount type=bind,src=./results,dst=/workspace/results \
-  ghcr.io/jonathanvdc/skeleshare-cgo26-artifact:latest \
+  ghcr.io/tzunghanjuang/lctes26-artifact:latest \
   python3 evaluation.py --only <experiment-id>
 ```
 
@@ -189,7 +189,7 @@ source ./venv/bin/activate
 
 To run an experiment using its synthesized hardware design on the FPGA board, go to the corresponding experiment directory and execute the following commands:
 ```bash
-python ./test/<experiment-id>.py
+bash ./scores/run-<experiment-id>.py
 ```
 
 The available options are:
@@ -222,7 +222,7 @@ To run an experiment using its pre-synthesized hardware design on the FPGA board
 Finally, run the following script to summarize the logic, RAM, and DSP utilization, along with the GOPS measurements collected in the previous step.
 
 ```bash
-bash $SCRIPTDIR/scores/<experiment-id>.sh
+bash $SCRIPTDIR/scores/perf-<experiment-id>.sh
 ```
 
 A full list of experiment IDs is defined in `evaluation.py` and corresponds to the experiments in the artifact appendix.
@@ -245,10 +245,14 @@ These experiment IDs are:
 The output adheres to the following format and can be directly cross-referenced with Table 2 in the paper.
 
 ```
-Logic utilization (in ALMs) : 207,520 / 427,200 ( 49 % )
-Total RAM Blocks : 943 / 2,713 ( 35 % )
-Total DSP Blocks : 1,152 / 1,518 ( 76 % )
-GOP/s : 169.936
+Latency (ms) : 72.2355
+OP/cycle : 2124.53
+GOP/s : 424.905
+DSP efficiency (%) : 92.2104
+Logic utilization (in ALMs) : 186,283 / 427,200 ( 44 % )
+Total DSP Blocks : 576 / 1,518 ( 38 % )
+Average Routing Congestion: 31.2%
+Peak Routing Congestion: 69.3%
 ```
 
 
