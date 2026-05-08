@@ -91,7 +91,7 @@ echo $BASEDIR
 The docker image can be loaded with the folling command.
 
 ```bash
-docker load -i ./lctes26-artifact.tar
+sudo docker load -i ./lctes26-artifact.tar
 ```
 
 ### 2. Run the container with mounted results
@@ -100,7 +100,7 @@ Create a local results directory and mount it into the container so that all out
 
 ```bash
 mkdir -p results
-docker run --rm -it \
+sudo docker run --rm -it \
   --mount type=bind,src=./results,dst=/workspace/results \
   ghcr.io/tzunghanjuang/lctes26-artifact:latest
 ```
@@ -146,10 +146,31 @@ These experiment IDs are:
 
 **Warning:** Because synthesis typically takes **4–8 hours per benchmark** with Intel Quartus tool chain. We provide pre-synthesized designs that correspond exactly to the VHDL generated for each experiment. Please skip section 4.1 if long synthsis time is a concern. 
 
-#### 4.1 Synthsizing FPGA Bitstreams (Optional)
+#### 4.1 Set up Intel Quartus tool chain environment (reference server only)
+Please follow the instruction below to set up the the access to Intel Quartus tools and the FPGA driver.
+```bash
+source profile
+```
 
 
-#### 4.2 Running Programms on FPGA
+#### 4.2 Synthsize FPGA Bitstreams (Optional)
+
+After the step 3, the generated VHDL files should be located in the `results` folder. The next step is to copy them to the synthesis folder `pre_synthesis_cleaned` with the following commands;
+```bash
+bash ./scores/copy-<experiment-id>.sh
+```
+
+The available options are:
+- `expt-3`
+- `expt-4`
+- `expt-6`
+- `expt-8`
+- `expt-9`
+- `expt-10`
+- `expt-11`
+
+
+#### 4.3 Running Programms on FPGA
 
 The pre-synthesized design can be downloaded from zenodo. The experiments will be located in the ``precomputed`` folder after unzipping the file.
 ```bash

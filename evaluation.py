@@ -179,7 +179,7 @@ EXPERIMENTS: List[Experiment] = [
             path="src/test/backend/hdl/arch/programmable/testVGGUnit16BitHalf",
         ),
         figure=None,
-    )
+    ),
     Experiment(
         id="expt-4",
         description="VGG16-Full",
