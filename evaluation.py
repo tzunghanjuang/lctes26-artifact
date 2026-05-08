@@ -234,6 +234,24 @@ EXPERIMENTS: List[Experiment] = [
         ),
         figure=None,
     ),
+    Experiment(
+        id="vgg16-8",
+        description="VGG16-8bit",
+        lowering=PhaseConfig(
+            branch="routable-network-setup",
+            path="src/test/backend/hdl/arch/programmable/testVGGunit",
+        ),
+        figure=None,
+    ),
+    Experiment(
+        id="lenet-5",
+        description="LeNet-5",
+        lowering=PhaseConfig(
+            branch="routable-network-setup",
+            path="src/test/backend/hdl/arch/programmable/LeNet5Test",
+        ),
+        figure=None,
+    ),
 ]
 
 
