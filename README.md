@@ -178,9 +178,30 @@ bash ./pre_systhesis_cleaned/<experiment-id>/real.sh
 
 #### 4.3 Running Programms on FPGA
 
-If the previous step is skipped or synthesis has done, FPGA bitstreams (.gbs files) should locate at ./pre_systhesis_cleaned/<experiment-id>/build_synth/
+If the previous step is skipped or synthesis has done, FPGA bitstreams (.gbs files) should locate at ``./pre_systhesis_cleaned/<experiment-id>/build_synth/``.
 
-Inside each experiment (folder ``./precomputed/<experiment-id>``), the software runtime for each experiment might also need to be updated due to different compiling environment.
+Pleas make source running ``source profile`` before the following steps.
+
+The next step is to set up the python virtual environment.
+```bash
+source ./venv/bin/activate
+```
+
+To run an experiment using its synthesized hardware design on the FPGA board, go to the corresponding experiment directory and execute the following commands:
+```bash
+python ./test/<experiment-id>.py
+```
+
+The available options are:
+- `expt-3`
+- `expt-4`
+- `expt-6`
+- `expt-8`
+- `expt-9`
+- `expt-10`
+- `expt-11`
+
+<!-- Inside each experiment (folder ``./precomputed/<experiment-id>``), the software runtime for each experiment might also need to be updated due to different compiling environment.
 ```bash
 cd ./sw
 cmake .
@@ -194,7 +215,7 @@ To run an experiment using its pre-synthesized hardware design on the FPGA board
 ```bash
 ./real_start.sh
 ./real_sw.sh
-```
+``` -->
 
 ### 5. Results
 
@@ -207,13 +228,14 @@ bash $SCRIPTDIR/scores/<experiment-id>.sh
 A full list of experiment IDs is defined in `evaluation.py` and corresponds to the experiments in the artifact appendix.
 These experiment IDs are:
 
-- `expt-1`
-- `expt-2`
 - `expt-3`
 - `expt-4`
-- `expt-5`
 - `expt-6`
-- `expt-7`
+- `expt-8`
+- `expt-9`
+- `expt-10`
+- `expt-11`
+
 
 The output adheres to the following format and can be directly cross-referenced with Table 2 in the paper.
 
