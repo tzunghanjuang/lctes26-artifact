@@ -270,15 +270,15 @@ def main() -> None:
 
     print(f"Results will be stored under: {RESULTS_DIR}")
 
-    s = os.path.join(WORKSPACE_DIR, 'scripts')
-    d = os.path.join(RESULTS_DIR, 'scripts')
-    if not os.path.isdir(d):
-        if os.path.isdir(s):
-            shutil.copytree(s, d)
-        else:
-            shutil.copy2(s, d)
+    # s = os.path.join(WORKSPACE_DIR, 'scripts')
+    # d = os.path.join(RESULTS_DIR, 'scripts')
+    # if not os.path.isdir(d):
+    #     if os.path.isdir(s):
+    #         shutil.copytree(s, d)
+    #     else:
+    #         shutil.copy2(s, d)
 
-    print(f"Copied script files to {RESULTS_DIR}")
+    # print(f"Copied script files to {RESULTS_DIR}")
 
     for exp in experiments:
         if args.phase in ("lowering", "both") and exp.lowering is not None:

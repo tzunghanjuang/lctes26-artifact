@@ -155,7 +155,7 @@ source profile
 
 #### 4.2 Synthsize FPGA Bitstreams (Optional)
 
-After the step 3, the generated VHDL files should be located in the `results` folder. The next step is to copy them to the synthesis folder `pre_synthesis_cleaned` with the following commands;
+After the step 3, the generated VHDL files should be located in the ``results`` folder. The next step is to copy them to the synthesis folder `pre_synthesis_cleaned` with the following commands;
 ```bash
 bash ./scores/copy-<experiment-id>.sh
 ```
@@ -169,19 +169,16 @@ The available options are:
 - `expt-10`
 - `expt-11`
 
+After the above step, the generated VHDL files will replace the existing pre-computed files in ``pre_systhesis_cleaned``. To synthesis the FPGA bitstreams, please follow the below commands.
+**Warning: the command could take 4-8 hours, please consider using tmux or background execution.**
+```bash 
+bash ./pre_systhesis_cleaned/<experiment-id>/real.sh
+```
+
 
 #### 4.3 Running Programms on FPGA
 
-The pre-synthesized design can be downloaded from zenodo. The experiments will be located in the ``precomputed`` folder after unzipping the file.
-```bash
-wget https://zenodo.org/records/17925912/files/precomputed.zip
-unzip precomputed.zip
-```
-
-The unzipped pre-synthesized design may have permission issue. Please run the following command to update the permission.
-```bash
-chmod -R 777 ./precomputed
-```
+If the previous step is skipped or synthesis has done, FPGA bitstreams (.gbs files) should locate at ./pre_systhesis_cleaned/<experiment-id>/build_synth/
 
 Inside each experiment (folder ``./precomputed/<experiment-id>``), the software runtime for each experiment might also need to be updated due to different compiling environment.
 ```bash
@@ -195,7 +192,6 @@ cd ..
 To run an experiment using its pre-synthesized hardware design on the FPGA board, go to the corresponding experiment directory and execute the following commands:
 
 ```bash
-source $SCRIPTDIR/profile
 ./real_start.sh
 ./real_sw.sh
 ```
