@@ -61,18 +61,19 @@ export BASEDIR="$(pwd)"
 After unzipping the files in the previous sectiond the folder structure is as follows:
 ```
 99
-├── data                   # Data and weights for accelerators
-├── driver                 # FPGA driver
-├── pre_synthesis_cleaned  # FPGA wrappers with pre-synthesized bitstreams
-├── scores                 # Shell scripts to print the results for Table 2
-├── src                    # Main Python scripts
-├── tests                  # Experiment scripts
-├── tmp                    # Pre-computed results and scripts
-├── venv                   # Python virtual environment
-├── profile                # FPGA tool chain setup script
-├── pyproject.toml         # Local Python package setup
-├── requirements.txt       # Python package list 
-└── lctes26-docker.tar     # Docker immage for the compiler infrastructure
+└── pytorch-shir
+    ├── data                   # Data and weights for accelerators
+    ├── driver                 # FPGA driver
+    ├── pre_synthesis_cleaned  # FPGA wrappers with pre-synthesized bitstreams
+    ├── scores                 # Shell scripts to print the results for Table 2
+    ├── src                    # Main Python scripts
+    ├── tests                  # Experiment scripts
+    ├── tmp                    # Pre-computed results and scripts
+    ├── venv                   # Python virtual environment
+    ├── profile                # FPGA tool chain setup script
+    ├── pyproject.toml         # Local Python package setup
+    ├── requirements.txt       # Python package list 
+    └── lctes26-docker.tar     # Docker immage for the compiler infrastructure
 ```
 
 The Docker image ``lctes26-docker.zip`` in this artifact reproduces the paper's accelerator HDL files, which are required for Table 2.
@@ -254,7 +255,7 @@ sudo docker run --rm -it \
   python3 tmp/figures.py
 ```
 
-The generated figures will be located in the `results` folder. Please use ``xdg-open`` to open the pdf gui for them.
+The generated figures will be located in the `results` folder. Please use ``xdg-open`` to open the pdfs or use ``scp`` to copy them.
 
 For Figure 15:
 ```bash
