@@ -27,7 +27,7 @@ ssh-add path/to/private-key
 
 **II. Connect to our server via the institutional jump host**
 ```bash
-ssh -A -J your-username@jump.cs.mcgill.ca your-username@solaire.cs.mcgill.ca
+ssh -A -Y -J your-username@jump.cs.mcgill.ca your-username@solaire.cs.mcgill.ca
 ```
 Once connected, you will have access to Intel Arria 10 PAC connected via PCI-Express on the server.
 
@@ -63,7 +63,7 @@ After unzipping the files in the previous sectiond the folder structure is as fo
 99
 ├── data                   # Data and weights for accelerators
 ├── driver                 # FPGA driver
-├── pre_synthesis_cleaned  # FPGA wrappers with pre-synthesizd bitstreams
+├── pre_synthesis_cleaned  # FPGA wrappers with pre-synthesized bitstreams
 ├── scores                 # Shell scripts to print the results for Table 2
 ├── src                    # Main Python scripts
 ├── tests                  # Experiment scripts
@@ -82,7 +82,7 @@ The virtual environment ``venv`` are required to run the pytorch interface to ex
 
 ## Step-By-Step Instructions (Table 2)
 
-The steps below walk you through the complete workflow for evaluating using our Docker image and python virtual evironment.
+The steps below walk you through the complete workflow for evaluating using our Docker image and Python virtual evironment.
 
 In this artifact, we sticks to the ``BASEDIR`` in ``99/``. Please run the following command to check if the setup is correct. It will print out a path ending with ``99``.
 ```bash
@@ -99,7 +99,7 @@ sudo docker load -i $BASEDIR/lctes26-artifact.tar
 
 ### 2. Run the container with mounted results
 
-Create a local results directory and mount it into the container so that all outputs are available on your host machine. Note that this step only covers the experiements from this paper. The entire processing time for this step will be 10-15 minutes.
+Create a local results directory and mount it into the container so that all outputs are available on your host machine. Note that this step only covers the experiements from this paper. The entire processing time for this step will be 15-20 minutes.
 
 ```bash
 mkdir -p results
@@ -120,7 +120,7 @@ $BASEDIR/results/<experiment-id>/lowering/
 Run the following command to execute the experimental options listed below:
 
 ```bash
-docker run --rm -it \
+sudo docker run --rm -it \
   --mount type=bind,src=$BASEDIR/results,dst=/workspace/results \
   ghcr.io/tzunghanjuang/lctes26-artifact:latest \
   python3 evaluation.py --only <experiment-id>
@@ -143,8 +143,8 @@ These experiment IDs are:
 Some experiments require PyTorch packages. Please use the following command to setup Python environment
 ```bash
 find $BASEDIR/venv/bin -type f -exec sed -i "s#/home/pteng#${BASEDIR//&/\\&}#g" {} +
-. $BASEDIR/venv/bin/activate
-pip install --editable .
+source $BASEDIR/venv/bin/activate
+pip install --editable $BASEDIR
 deactivate
 ```
 
@@ -172,7 +172,7 @@ The available options are:
 - `expt-11`
 
 After the above step, the generated VHDL files will replace the existing pre-computed files in ``pre_systhesis_cleaned``. To synthesis the FPGA bitstreams, please follow the below commands.
-**Warning: the command could take 4-8 hours, please consider using tmux or background execution.**
+**Warning: the command could take 6-10 hours, please consider using tmux or background execution.**
 ```bash 
 bash $BASEDIR/pre_systhesis_cleaned/<experiment-id>/real.sh
 ```
@@ -183,8 +183,8 @@ bash $BASEDIR/pre_systhesis_cleaned/<experiment-id>/real.sh
 If the previous step is skipped or synthesis has done, FPGA bitstreams (.gbs files) should locate at ``$BASEDIR/pre_systhesis_cleaned/<experiment-id>/build_synth/``.
 
 Pleas make setup tool environment before the following steps.
-```
-. $BASEDIR/venv/bin/activate
+```bash
+source $BASEDIR/venv/bin/activate
 source $BASEDIR/profile
 ```
 
@@ -268,5 +268,6 @@ xdg-open $BASEDIR/tmp/vgg16_runtime.pdf
 To reproduce Table 3, run the following commands to print out the numbers in the table:
 
 ```bash
+bash $BASEDIR/tmp/copy_nodes.sh
 bash $BASEDIR/tmp/nodes.sh
 ```
