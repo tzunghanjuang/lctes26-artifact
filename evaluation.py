@@ -256,7 +256,7 @@ EXPERIMENTS: List[Experiment] = [
         id="lenet-5-Marked",
         description="LeNet-5-Marked",
         lowering=PhaseConfig(
-            branch="shir-routable-network-marked",
+            branch="routable-network-marked",
             path="src/test/backend/hdl/arch/programmable/LeNet5Test",
         ),
         figure=None,
@@ -265,7 +265,7 @@ EXPERIMENTS: List[Experiment] = [
         id="vgg-Marked",
         description="vgg16-8-Marked",
         lowering=PhaseConfig(
-            branch="shir-routable-network-marked",
+            branch="routable-network-marked",
             path="src/test/backend/hdl/arch/programmable/testVGGUnit",
         ),
         figure=None,
@@ -274,7 +274,7 @@ EXPERIMENTS: List[Experiment] = [
         id="tiny-yolo-v2-Marked",
         description="Tiny-Yolo-v2-Marked",
         lowering=PhaseConfig(
-            branch="shir-routable-network-marked",
+            branch="routable-network-marked",
             path="src/test/backend/hdl/arch/programmable/testTinyYoloV2Unit",
         ),
         figure=None,
@@ -283,7 +283,7 @@ EXPERIMENTS: List[Experiment] = [
         id="resnet-Marked",
         description="ResNet-Marked",
         lowering=PhaseConfig(
-            branch="shir-routable-network-marked",
+            branch="routable-network-marked",
             path="src/test/backend/hdl/arch/programmable/ResNetTest",
         ),
         figure=None,
