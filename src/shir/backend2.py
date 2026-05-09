@@ -47,18 +47,18 @@ resnet_weird_residual(
 
 GBSTBL = {
     # Replace None with the path to the gbs file
-    torch.ops._shir.lenet5_linear1: f"{os.environ['BASEDIR']}/Lenet5/build_synth/hello_afu_unsigned_ssl.gbs",
-    torch.ops._shir.lenet5_linear2: f"{os.environ['BASEDIR']}/Lenet5/build_synth/hello_afu_unsigned_ssl.gbs",
-    torch.ops._shir.lenet5_linear3: f"{os.environ['BASEDIR']}/Lenet5/build_synth/hello_afu_unsigned_ssl.gbs",
-    torch.ops._shir.lenet5_conv_pool1: f"{os.environ['BASEDIR']}/Lenet5/build_synth/hello_afu_unsigned_ssl.gbs",
-    torch.ops._shir.lenet5_conv_pool2: f"{os.environ['BASEDIR']}/Lenet5/build_synth/hello_afu_unsigned_ssl.gbs",
+    torch.ops._shir.lenet5_linear1: f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/Lenet5/build_synth/hello_afu_unsigned_ssl.gbs",
+    torch.ops._shir.lenet5_linear2: f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/Lenet5/build_synth/hello_afu_unsigned_ssl.gbs",
+    torch.ops._shir.lenet5_linear3: f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/Lenet5/build_synth/hello_afu_unsigned_ssl.gbs",
+    torch.ops._shir.lenet5_conv_pool1: f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/Lenet5/build_synth/hello_afu_unsigned_ssl.gbs",
+    torch.ops._shir.lenet5_conv_pool2: f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/Lenet5/build_synth/hello_afu_unsigned_ssl.gbs",
 
     torch.ops._shir.conv3x3p1b8x64: None,
     # torch.ops._shir.conv3x3p1b14x64: "/mnt/sda1/pteng/testVGGUnit/build_synth/hello_afu_unsigned_ssl.gbs",  # XXX: outdated instr format!
     # torch.ops._shir.conv3x3p1b14x64: "/mnt/sda1/pteng/testVGGUnit_oob_fixoch/build_synth/hello_afu_unsigned_ssl.gbs", # XXX: outdated instr format!
     # torch.ops._shir.conv3x3p1b14x64: "/home/pteng/small_cdsl_bench/testVGGUnit_oob_direct/build_synth/hello_afu_unsigned_ssl.gbs",
-    torch.ops._shir.conv3x3p1b14x64: f"{os.environ['BASEDIR']}/VGG8bit/build_synth/hello_afu_unsigned_ssl.gbs",
-    torch.ops._shir.tiny_yolo_v2: f"{os.environ['BASEDIR']}/expt-6/build_synth/hello_afu_unsigned_ssl.gbs",
+    torch.ops._shir.conv3x3p1b14x64: f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/VGG8bit/build_synth/hello_afu_unsigned_ssl.gbs",
+    torch.ops._shir.tiny_yolo_v2: f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-6/build_synth/hello_afu_unsigned_ssl.gbs",
     # torch.ops._shir.tiny_yolo_v2: "/home/pteng/small_cdsl_bench/testTinyYoloV2Unit_port1/build_synth/hello_afu_unsigned_ssl.gbs",
     torch.ops._shir.resnet7x7: None,
     # torch.ops._shir.resnet_weird: "/home/pteng/ResNetUnit_triple_wide1x1/build_synth/hello_afu_unsigned_ssl.gbs",
@@ -68,8 +68,8 @@ GBSTBL = {
     # torch.ops._shir.resnet_weird: "/home/pteng/ResNetUnit_triple_skipbuf1x1_wrong/build_synth/hello_afu_unsigned_ssl.gbs",
     # torch.ops._shir.resnet_weird_residual: "/home/pteng/ResNetUnit_triple_skipbuf1x1_wrong/build_synth/hello_afu_unsigned_ssl.gbs",
 
-    torch.ops._shir.resnet_weird: f"{os.environ['BASEDIR']}/expt-11/build_synth/hello_afu_unsigned_ssl.gbs",
-    torch.ops._shir.resnet_weird_residual: f"{os.environ['BASEDIR']}/expt-11/build_synth/hello_afu_unsigned_ssl.gbs",
+    torch.ops._shir.resnet_weird: f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-11/build_synth/hello_afu_unsigned_ssl.gbs",
+    torch.ops._shir.resnet_weird_residual: f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-11/build_synth/hello_afu_unsigned_ssl.gbs",
 
     # torch.ops._shir.resnet_weird: "/mnt/sda1/pteng/ResNetUnit_full_residual/build_synth/hello_afu_unsigned_ssl.gbs",
     # torch.ops._shir.resnet_weird_residual: "/mnt/sda1/pteng/ResNetUnit_full_residual/build_synth/hello_afu_unsigned_ssl.gbs",
@@ -2084,18 +2084,18 @@ def resnet_compiler(gm: fx.GraphModule, example_inputs: List[torch.Tensor]) -> C
 
 def resnet_compiler_halved(gm: fx.GraphModule, example_inputs: List[torch.Tensor]) -> Callable:
   from . import backend2_resnet3x3 as isel
-  GBSTBL[torch.ops._shir.resnet_weird] = f"{os.environ['BASEDIR']}/expt-10/build_synth/hello_afu_unsigned_ssl.gbs"
-  GBSTBL[torch.ops._shir.resnet_weird_residual] = f"{os.environ['BASEDIR']}/expt-10/build_synth/hello_afu_unsigned_ssl.gbs"
+  GBSTBL[torch.ops._shir.resnet_weird] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-10/build_synth/hello_afu_unsigned_ssl.gbs"
+  GBSTBL[torch.ops._shir.resnet_weird_residual] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-10/build_synth/hello_afu_unsigned_ssl.gbs"
   return _with_isel(gm, example_inputs, isel)
 
 def resnet_compiler_third(gm: fx.GraphModule, example_inputs: List[torch.Tensor]) -> Callable:
   from . import backend2_resnet3x3 as isel
-  GBSTBL[torch.ops._shir.resnet_weird] = f"{os.environ['BASEDIR']}/expt-9/build_synth/hello_afu_unsigned_ssl.gbs"
-  GBSTBL[torch.ops._shir.resnet_weird_residual] = f"{os.environ['BASEDIR']}/expt-9/build_synth/hello_afu_unsigned_ssl.gbs"
+  GBSTBL[torch.ops._shir.resnet_weird] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-9/build_synth/hello_afu_unsigned_ssl.gbs"
+  GBSTBL[torch.ops._shir.resnet_weird_residual] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-9/build_synth/hello_afu_unsigned_ssl.gbs"
   return _with_isel(gm, example_inputs, isel)
 
 def resnet_compiler_quarter(gm: fx.GraphModule, example_inputs: List[torch.Tensor]) -> Callable:
   from . import backend2_resnet3x3 as isel
-  GBSTBL[torch.ops._shir.resnet_weird] = f"{os.environ['BASEDIR']}/expt-8/build_synth/hello_afu_unsigned_ssl.gbs"
-  GBSTBL[torch.ops._shir.resnet_weird_residual] = f"{os.environ['BASEDIR']}/expt-8/build_synth/hello_afu_unsigned_ssl.gbs"
+  GBSTBL[torch.ops._shir.resnet_weird] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-8/build_synth/hello_afu_unsigned_ssl.gbs"
+  GBSTBL[torch.ops._shir.resnet_weird_residual] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-8/build_synth/hello_afu_unsigned_ssl.gbs"
   return _with_isel(gm, example_inputs, isel)

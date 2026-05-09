@@ -142,10 +142,10 @@ These experiment IDs are:
 
 Some experiments require PyTorch packages. Please use the following command to setup Python environment
 ```bash
-find $BASEDIR/venv/bin -type f -exec sed -i "s#/home/pteng#${BASEDIR//&/\\&}#g" {} +
+export PREDIR=$(realpath "$BASEDIR/..")
+sed -i "s#/home/pteng#${PREDIR}#g" $BASEDIR/venv/bin/*
 source $BASEDIR/venv/bin/activate
 pip install --editable $BASEDIR
-deactivate
 ```
 
 Please follow the instruction below to set up the the access to Intel Quartus tools and the FPGA driver.
