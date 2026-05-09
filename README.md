@@ -33,7 +33,7 @@ Once connected, you will have access to Intel Arria 10 PAC connected via PCI-Exp
 
 ### 3. Acceess the Artifact
 The artifact can be downloaded from Zenodo ``zenodo.org/records/20046007`` with the following command.
-The entire artifact has more 10 GB so it might takes several minutes to download.
+The entire artifact has more than 10 GB so it might takes several minutes to download.
 ```bash
 wget https://zenodo.org/records/20046007/files/99.zip
 ```
