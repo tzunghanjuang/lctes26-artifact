@@ -1,0 +1,3 @@
+/home/pteng/pytorch-shir/driver/build/CMakeFiles/rebuild_cache.dir
+/home/pteng/pytorch-shir/driver/build/CMakeFiles/edit_cache.dir
+/home/pteng/pytorch-shir/driver/build/CMakeFiles/driver.dir

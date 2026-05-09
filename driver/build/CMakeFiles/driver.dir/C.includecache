@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pteng/pytorch-shir/driver/buffer.c
+buffer.h
+/home/pteng/pytorch-shir/driver/buffer.h
+hugetlbfs.h
+/home/pteng/pytorch-shir/driver/hugetlbfs.h
+
+/home/pteng/pytorch-shir/driver/buffer.h
+stddef.h
+-
+
+/home/pteng/pytorch-shir/driver/hugetlbfs.h
+

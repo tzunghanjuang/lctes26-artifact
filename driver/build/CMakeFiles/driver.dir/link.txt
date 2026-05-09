@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC -shared -Wl,-soname,libdriver.so -o libdriver.so CMakeFiles/driver.dir/buffer.c.o CMakeFiles/driver.dir/fpga.c.o  -luuid -lhugetlbfs -lopae-c 
