@@ -14,6 +14,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.pyplot import figure
+import os
 
 WORKSPACE_DIR = "/workspace"
 RESULTS_DIR = os.path.join(WORKSPACE_DIR, "results")
