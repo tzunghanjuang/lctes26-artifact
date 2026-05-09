@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgmp-dev \
     libtinfo6 \
     libopenblas-dev \
+    pandas \
  && rm -rf /var/lib/apt/lists/*
 
 ENV LANG=C.UTF-8

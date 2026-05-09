@@ -38,10 +38,10 @@ The entire artifact has more than 10 GB so it might takes several minutes to dow
 wget https://zenodo.org/records/20046007/files/99.zip
 ```
 
-After downloading the artifact, please unzip it and enter the unzipped directory. In this artifact, we sticks to the base folder ``99/``.
+After downloading the artifact, please unzip it and enter the unzipped directory. In this artifact, we sticks to the base folder ``99/pytorch-shir``.
 ```bash
 unzip 99.zip 
-cd 99
+cd 99/pytorch-shir/
 ```
 
 In the directory, please run the following commands to unzip the inner files.
@@ -84,7 +84,7 @@ The virtual environment ``venv`` are required to run the pytorch interface to ex
 
 The steps below walk you through the complete workflow for evaluating using our Docker image and Python virtual evironment.
 
-In this artifact, we sticks to the ``BASEDIR`` in ``99/``. Please run the following command to check if the setup is correct. It will print out a path ending with ``99``.
+In this artifact, we sticks to the ``BASEDIR`` in ``99/pytorch-shir/``. Please run the following command to check if the setup is correct. It will print out a path ending with ``99/pytorch-shir``.
 ```bash
 echo $BASEDIR
 ```
@@ -248,19 +248,22 @@ Peak Routing Congestion: 69.3%
 To reproduce Figures 15 and 16, run the following commands to draw the figures with pre-computed data points:
 
 ```bash
-bash $BASEDIR/tmp/figures.sh
+sudo docker run --rm -it \
+  --mount type=bind,src=$BASEDIR/results,dst=/workspace/results \
+  ghcr.io/tzunghanjuang/lctes26-artifact:latest \
+  python3 tmp/figures.py
 ```
 
-The generated figures will be `tmp/rooflines.pdf` for Figure 15 and `tmp/vgg16_runtime.pdf` for Figure 16. Please use ``xdg-open`` to open the pdf gui for them.
+The generated figures will be located in the `results` folder. Please use ``xdg-open`` to open the pdf gui for them.
 
 For Figure 15:
 ```bash
-xdg-open $BASEDIR/tmp/rooflines.pdf
+xdg-open $BASEDIR/results/rooflines.pdf
 ```
 
 For Figure 16:
 ```bash
-xdg-open $BASEDIR/tmp/vgg16_runtime.pdf
+xdg-open $BASEDIR/results/vgg16_runtime.pdf
 ```
 
 
@@ -271,4 +274,40 @@ To reproduce Table 3, run the following commands to print out the numbers in the
 ```bash
 bash $BASEDIR/tmp/copy_nodes.sh
 bash $BASEDIR/tmp/nodes.sh
+```
+
+The generated output will be as follows:
+```
+Operation                                LeNet VGG YOLO ResNet
+InstructionReduction.Read                    0  26   26     26
+InstructionReduction.Reduction               1   1    1      1
+Compute.ParallelDotProduct                  19  34   34     18
+Compute.PartialSum                          24  94   94     54
+Compute.BiasAdd                             10  10   10     10
+Compute.ResidualAdd                          0   0    0     26
+Compute.RequantRescale                      18  18   18     18
+Compute.ActivationReLU                       1   1    1      1
+Compute.ActivationLeakyReLU                  0   0    8      0
+Compute.PoolingMax                           0  39   39      6
+Compute.PoolingMaxStride1                    0   0   97      0
+Compute.PoolingAverage                      41   0    0      0
+ReadAccess.ConvImageAddress                  0  63   63    125
+ReadAccess.ConvImageTileIndexing             0  24   24      0
+ReadAccess.ConvImageRead                     0  56   56     56
+ReadAccess.ConvImageBuffer                   0  23   23     23
+ReadAccess.ConvWeightAddress                 0  47   47     47
+ReadAccess.ConvWeightRead                    0  29   29     29
+ReadAccess.ConvWeightBuffer                  0  61   65     61
+ReadAccess.ConvImageShallow                 39   0    0      0
+ReadAccess.ConvWeightShallow                39   0    0      0
+ReadAccess.FCImageShallow                   49   0    0      0
+ReadAccess.FCWeightShallow                  60   0    0      0
+ReadAccess.BiasRead                         46  47   47     47
+ReadAccess.ResidualRead                      0   0    0     71
+ReadAccess.RequantRead                      36  53   53     53
+WriteAccess.ReshapePool                      0  47   47     44
+WriteAccess.ReshapeStride1Pool               0   0   46      0
+WriteAccess.OutputAddress                    0  39   39     39
+WriteAccess.OutputWrite                      0  25   25     25
+WriteAccess.OutputShallow                   14   0    0      0
 ```
