@@ -280,7 +280,7 @@ bash $BASEDIR/tmp/nodes.sh
 The generated output will be as follows:
 ```
 Operation                                LeNet VGG YOLO ResNet
-InstructionReduction.Read                    0  26   26     26
+InstructionReduction.Read                   22  26   26     26
 InstructionReduction.Reduction               1   1    1      1
 Compute.ParallelDotProduct                  19  34   34     18
 Compute.PartialSum                          24  94   94     54
