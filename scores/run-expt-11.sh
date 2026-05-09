@@ -1,0 +1,1 @@
+python $BASEDIR/lctes26_resnet50.py >> $BASEDIR/tmp/expt-11.txt

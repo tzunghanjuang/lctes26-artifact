@@ -1,0 +1,1 @@
+python $BASEDIR/lctes26_tiny_yolo.py >> $BASEDIR/tmp/expt-6.txt
