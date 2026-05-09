@@ -25,6 +25,12 @@ Therefore We have created temporary institutional server accounts for evaluation
 ssh-add path/to/private-key
 ```
 
+If you encounter any error such as `Error loading key...`, please try the following commands.
+``` bash
+sed -i 's/\r$//' path/to/private-key
+ssh-add path/to/private-key
+```
+
 **II. Connect to our server via the institutional jump host**
 ```bash
 ssh -A -Y -J your-username@jump.cs.mcgill.ca your-username@solaire.cs.mcgill.ca
@@ -49,10 +55,10 @@ In the directory, please run the following commands to unzip the inner files.
 unzip data.zip 
 tar -xvzf pre_synthesis_cleaned.tar.gz
 tar -xvzf venv.tar.gz
-unzip ./lctes26-artifact_image.zip
+unzip lctes26-artifact.zip
 ```
 
-**Please make sure to set current folder (/path/to/99) as the `BASEDIR`.**
+**Please make sure to set current folder (/path/to/99/pytorch-shir/) as the `BASEDIR`.**
 ``` bash
 export BASEDIR="$(pwd)"
 ```
@@ -73,10 +79,10 @@ After unzipping the files in the previous sectiond the folder structure is as fo
     ├── profile                # FPGA tool chain setup script
     ├── pyproject.toml         # Local Python package setup
     ├── requirements.txt       # Python package list 
-    └── lctes26-docker.tar     # Docker immage for the compiler infrastructure
+    └── lctes26-artifact.tar   # Docker immage for the compiler infrastructure
 ```
 
-The Docker image ``lctes26-docker.zip`` in this artifact reproduces the paper's accelerator HDL files, which are required for Table 2.
+The Docker image ``lctes26-artifact.tar`` in this artifact reproduces the paper's accelerator HDL files, which are required for Table 2.
 Generated VHDL code for all experiments are written to the local `results/` directory for evaluation. The generated VHDL will synthesized into FPGA bitstreams via Intel Quartus tool chain. 
 
 The virtual environment ``venv`` are required to run the pytorch interface to execute the models on generated accelerators.
@@ -85,7 +91,7 @@ The virtual environment ``venv`` are required to run the pytorch interface to ex
 
 The steps below walk you through the complete workflow for evaluating using our Docker image and Python virtual evironment.
 
-In this artifact, we sticks to the ``BASEDIR`` in ``99/pytorch-shir/``. Please run the following command to check if the setup is correct. It will print out a path ending with ``99/pytorch-shir``.
+In this artifact, we sticks to ``BASEDIR`` which is ``99/pytorch-shir/``. Please run the following command to check if the setup is correct. It will print out a path ending with ``99/pytorch-shir``.
 ```bash
 echo $BASEDIR
 ```
@@ -117,7 +123,9 @@ $BASEDIR/results/<experiment-id>/lowering/
 ```
 
 
-#### 3.1 Run each test independently
+### 3 Run each test independently (Optional)
+**If you have finished step 2, please skip this step. **
+
 Run the following command to execute the experimental options listed below:
 
 ```bash
@@ -151,6 +159,7 @@ pip install --editable $BASEDIR
 
 Please follow the instruction below to set up the the access to Intel Quartus tools and the FPGA driver.
 ```bash
+ sed -i 's/\r$//' $BASEDIR/profile
 source $BASEDIR/profile
 ``` 
 
@@ -158,7 +167,7 @@ source $BASEDIR/profile
 
 **Warning:** Each synthesis job typically takes **6–10 hours** with Intel Quartus tool chain. We provide pre-synthesized designs that correspond exactly to the VHDL generated for each experiment. Please skip this section and move to 4.3 if long synthsis time is a concern.
 
-After the step 3, the generated VHDL files should be located in the ``results`` folder. The next step is to copy them to the synthesis folder `pre_synthesis_cleaned` with the following commands;
+After the step 2 or 3, the generated VHDL files should be located in the ``results`` folder. The next step is to copy them to the synthesis folder `pre_synthesis_cleaned` with the following commands;
 ```bash
 bash $BASEDIR/scores/copy-<experiment-id>.sh
 ```
@@ -173,7 +182,7 @@ The available options are:
 - `expt-11`
 
 After the above step, the generated VHDL files will replace the existing pre-computed files in ``pre_systhesis_cleaned``. To synthesis the FPGA bitstreams, please follow the below commands.
-**Warning: the command could take 6-10 hours, please consider using tmux or background execution.**
+**Warning: This command could take 6-10 hours, Please consider using tmux or background execution. Or please skip this step and use the pre-synthesis design directly.**
 ```bash 
 bash $BASEDIR/pre_systhesis_cleaned/<experiment-id>/real.sh
 ```
@@ -223,11 +232,6 @@ These experiment IDs are:
 - `expt-9`
 - `expt-10`
 - `expt-11`
-
-<!-- We also include the following experiments from the prior work (only FPGA bitstreams, no compiling infra is included). Note that `expt-7` is not included. 
-- `expt-1`
-- `expt-2`
-- `expt-5` -->
 
 
 The output adheres to the following format and can be directly cross-referenced with Table 2 in the paper.
