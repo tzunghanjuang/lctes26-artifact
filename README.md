@@ -1,6 +1,6 @@
 # Artifact for LCTES '26 Paper #99
 
-This repository provides a Docker image and evaluation for a LCTES '26 paper *Artifact for A Functional Approach to Synthesizing Routable Programmable Accelerators.*
+This repository provides a Docker image and artifact evaluation for a LCTES '26 paper *A Functional Approach to Synthesizing Routable Programmable Accelerators.*
 
 The paper presents a functional programming–based approach for expressing synthesizable, runtime-programmable hardware accelerators. It supports dynamic shapes and instruction-like control, significantly reducing routing congestion in applications such as neural networks.
 The approach is based on SHIR compiler pipeline and Intel FPGA toolchains.
