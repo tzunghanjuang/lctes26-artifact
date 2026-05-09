@@ -189,7 +189,8 @@ source $BASEDIR/profile
 ```
 
 
-To run an experiment using its synthesized hardware design on the FPGA board, go to the corresponding experiment directory and execute the following commands:
+To run an experiment using its synthesized hardware design on the FPGA board, go to the corresponding experiment directory and execute the following commands.
+Note that each experiment needs 1-3 minutes.
 ```bash
 bash $BASEDIR/scores/run-<experiment-id>.py
 ```
