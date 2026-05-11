@@ -2089,6 +2089,8 @@ def resnet_compiler(gm: fx.GraphModule, example_inputs: List[torch.Tensor]) -> C
 
 def resnet_compiler_halved(gm: fx.GraphModule, example_inputs: List[torch.Tensor]) -> Callable:
   from . import backend2_resnet3x3 as isel
+  global GBSTBL
+  global KERNEL_FLAG
   GBSTBL[torch.ops._shir.resnet_weird] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-10/build_synth/hello_afu_unsigned_ssl.gbs"
   GBSTBL[torch.ops._shir.resnet_weird_residual] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-10/build_synth/hello_afu_unsigned_ssl.gbs"
   KERNEL_FLAG = 1
@@ -2096,6 +2098,8 @@ def resnet_compiler_halved(gm: fx.GraphModule, example_inputs: List[torch.Tensor
 
 def resnet_compiler_third(gm: fx.GraphModule, example_inputs: List[torch.Tensor]) -> Callable:
   from . import backend2_resnet3x3 as isel
+  global GBSTBL
+  global KERNEL_FLAG
   GBSTBL[torch.ops._shir.resnet_weird] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-9/build_synth/hello_afu_unsigned_ssl.gbs"
   GBSTBL[torch.ops._shir.resnet_weird_residual] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-9/build_synth/hello_afu_unsigned_ssl.gbs"
   KERNEL_FLAG = 1
@@ -2103,6 +2107,8 @@ def resnet_compiler_third(gm: fx.GraphModule, example_inputs: List[torch.Tensor]
 
 def resnet_compiler_quarter(gm: fx.GraphModule, example_inputs: List[torch.Tensor]) -> Callable:
   from . import backend2_resnet3x3 as isel
+  global GBSTBL
+  global KERNEL_FLAG
   GBSTBL[torch.ops._shir.resnet_weird] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-8/build_synth/hello_afu_unsigned_ssl.gbs"
   GBSTBL[torch.ops._shir.resnet_weird_residual] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-8/build_synth/hello_afu_unsigned_ssl.gbs"
   KERNEL_FLAG = 1
