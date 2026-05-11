@@ -213,6 +213,13 @@ The available options are:
 - `expt-10`
 - `expt-11`
 
+If there is any error occurs, please try the following fix and re-run the above commands.
+```bash
+deactivate
+source $BASEDIR/venv/bin/activate
+pip install --editable .
+```
+
 ### 5. Results
 
 Finally, run the following script to summarize the logic, RAM, and DSP utilization, along with the GOPS measurements collected in the previous step.

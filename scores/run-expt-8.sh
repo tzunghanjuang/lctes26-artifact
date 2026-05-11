@@ -1,1 +1,2 @@
+rm $BASEDIR/tmp/expt-8.txt
 python $BASEDIR/tests/lctes26_resnet50_quarter.py >> $BASEDIR/tmp/expt-8.txt
