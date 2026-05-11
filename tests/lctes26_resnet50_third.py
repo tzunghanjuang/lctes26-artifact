@@ -30,6 +30,6 @@ with torch.no_grad():
   model = convert_pt2e(model)
 
   import shir.backend2
-  model = torch.compile(model, backend=shir.backend2.resnet_compiler_quarter)
+  model = torch.compile(model, backend=shir.backend2.resnet_compiler_third)
 
   model(example_inputs[0])

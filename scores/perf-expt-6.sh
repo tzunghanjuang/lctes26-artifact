@@ -1,5 +1,5 @@
 total_cycles=$(awk '/Execution time \(cycles\):/ {sum += $4} END {print sum}' $BASEDIR/tmp/expt-6.txt)
-mean_cycles=$(awk -v c="$total_cycles" 'BEGIN {print c / 16}')
+mean_cycles=$(awk -v c="$total_cycles" 'BEGIN {print c / 1}')
 
 latency_ms=$(awk -v c="$mean_cycles" 'BEGIN {print c / 200000000 * 1000}')
 echo "Latency (ms) : $latency_ms"

@@ -1883,6 +1883,7 @@ def emit(gm: fx.GraphModule, max_inst: int, data_layout):
           tilesz = 14
           if kw == kh == 1:
             # tilesz = 12 # XXX: OLD 12x12 TILE
+            tilesz = 14 if KERNEL_FLAG == 0 else 12
             mode = 1
           elif kw == kh == 3:
             mode = 0
