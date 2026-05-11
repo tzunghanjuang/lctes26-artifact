@@ -45,6 +45,9 @@ resnet_weird_residual(
   Tensor y, Tensor scale_y, int z_y) -> Tensor
 """)
 
+
+KERNEL_FLAG = 0 
+
 GBSTBL = {
     # Replace None with the path to the gbs file
     torch.ops._shir.lenet5_linear1: f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/Lenet5/build_synth/hello_afu_unsigned_ssl.gbs",
@@ -1642,7 +1645,7 @@ def emit(gm: fx.GraphModule, max_inst: int, data_layout):
             if h == w == 1:
               # bruteforce search the packing factor.
               # assume the cutoff is the tile size.
-              factor = 14
+              factor = 14 if KERNEL_FLAG == 0 else 12
               # factor = 12 # XXX: OLD 12x12 TILE
               while factor > 1:
                 if batch % factor == 0:
@@ -1706,12 +1709,13 @@ def emit(gm: fx.GraphModule, max_inst: int, data_layout):
 
           pool_reverse = [2, 2]
           if kw == kh == 1:
-            pool_reverse = [7, 7]
+            pool_reverse = [7, 7] if KERNEL_FLAG == 0 else [6, 6]
             # pool_reverse = [6, 6] # XXX: OLD 12x12 TILE
 
           tilesz = 14
           if kw == kh == 1:
             # tilesz = 12 # XXX: OLD 12x12 TILE
+            tilesz = 14 if KERNEL_FLAG == 0 else 12
             mode = 1
           elif kw == kh == 3:
             mode = 0
@@ -1819,7 +1823,7 @@ def emit(gm: fx.GraphModule, max_inst: int, data_layout):
             if h == w == 1:
               # bruteforce search the packing factor.
               # assume the cutoff is the tile size.
-              factor = 14
+              factor = 14 if KERNEL_FLAG == 0 else 12
               # factor = 12 # XXX: OLD 12x12 TILE
               while factor > 1:
                 if batch % factor == 0:
@@ -1873,7 +1877,7 @@ def emit(gm: fx.GraphModule, max_inst: int, data_layout):
 
           pool_reverse = [2, 2]
           if kw == kh == 1:
-            pool_reverse = [7, 7]
+            pool_reverse = [7, 7] if KERNEL_FLAG == 0 else [6, 6]
             # pool_reverse = [6, 6] # XXX: OLD 12x12 TILE
 
           tilesz = 14
@@ -2086,16 +2090,19 @@ def resnet_compiler_halved(gm: fx.GraphModule, example_inputs: List[torch.Tensor
   from . import backend2_resnet3x3 as isel
   GBSTBL[torch.ops._shir.resnet_weird] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-10/build_synth/hello_afu_unsigned_ssl.gbs"
   GBSTBL[torch.ops._shir.resnet_weird_residual] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-10/build_synth/hello_afu_unsigned_ssl.gbs"
+  KERNEL_FLAG = 1
   return _with_isel(gm, example_inputs, isel)
 
 def resnet_compiler_third(gm: fx.GraphModule, example_inputs: List[torch.Tensor]) -> Callable:
   from . import backend2_resnet3x3 as isel
   GBSTBL[torch.ops._shir.resnet_weird] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-9/build_synth/hello_afu_unsigned_ssl.gbs"
   GBSTBL[torch.ops._shir.resnet_weird_residual] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-9/build_synth/hello_afu_unsigned_ssl.gbs"
+  KERNEL_FLAG = 1
   return _with_isel(gm, example_inputs, isel)
 
 def resnet_compiler_quarter(gm: fx.GraphModule, example_inputs: List[torch.Tensor]) -> Callable:
   from . import backend2_resnet3x3 as isel
   GBSTBL[torch.ops._shir.resnet_weird] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-8/build_synth/hello_afu_unsigned_ssl.gbs"
   GBSTBL[torch.ops._shir.resnet_weird_residual] = f"{os.environ['BASEDIR']}/pre_synthesis_cleaned/expt-8/build_synth/hello_afu_unsigned_ssl.gbs"
+  KERNEL_FLAG = 1
   return _with_isel(gm, example_inputs, isel)

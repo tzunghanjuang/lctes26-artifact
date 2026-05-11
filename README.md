@@ -159,7 +159,6 @@ pip install --editable $BASEDIR
 
 Please follow the instruction below to set up the the access to Intel Quartus tools and the FPGA driver.
 ```bash
- sed -i 's/\r$//' $BASEDIR/profile
 source $BASEDIR/profile
 ``` 
 
@@ -202,7 +201,7 @@ source $BASEDIR/profile
 To run an experiment using its synthesized hardware design on the FPGA board, go to the corresponding experiment directory and execute the following commands.
 Note that each experiment needs 1-3 minutes.
 ```bash
-bash $BASEDIR/scores/run-<experiment-id>.py
+bash $BASEDIR/scores/run-<experiment-id>.sh
 ```
 
 The available options are:
@@ -281,7 +280,16 @@ bash $BASEDIR/tmp/copy_nodes.sh
 bash $BASEDIR/tmp/nodes.sh
 ```
 
-The generated output will be as follows:
+If there is any error occurs, please try the following fix and re-run the above commands.
+```bash
+cd $BASEDIR
+deactivate
+. venv/bin/activate
+pip install --editable .
+```
+
+The generated output will be as follows. Not that the values in the Table 3 are just for maximum values.
+Some deviations are expected.
 ```
 Operation                                LeNet VGG YOLO ResNet
 InstructionReduction.Read                   22  26   26     26

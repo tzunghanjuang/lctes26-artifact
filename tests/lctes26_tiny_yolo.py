@@ -304,7 +304,8 @@ model = TinyYoloV2()
 model.load_weights("data/yolov2-tiny-voc.weights")
 model.eval()
 
-PROBLEM_SIZE_N = 16
+#PROBLEM_SIZE_N = 16
+PROBLEM_SIZE_N = 1
 
 _qex = get_example_input()[:PROBLEM_SIZE_N, :, :, :]
 _qex = torch.concat([_qex] * ((PROBLEM_SIZE_N + (batch_size - 1)) // batch_size), axis=0)
