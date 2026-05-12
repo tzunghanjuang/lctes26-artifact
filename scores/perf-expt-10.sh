@@ -7,7 +7,7 @@ op_c=$(awk -v c="$mean_cycles" 'BEGIN {print 3987001832 * 2 / c}')
 echo "OP/cycle : $op_c"
 gops=$(awk -v c="$mean_cycles" 'BEGIN {print 3987001832 * 2 * 0.2 / c}')
 echo "GOP/s : $gops"
-dsp_eff=$(awk -v c="$mean_cycles" 'BEGIN {print 3987001832 / c / 1216 / 2 * 100}')
+dsp_eff=$(awk -v c="$mean_cycles" 'BEGIN {print 3987001832 / c / 702 / 2 * 100}')
 echo "DSP efficiency (%) : $dsp_eff"
 
 grep "ALM" $BASEDIR/pre_synthesis_cleaned/expt-10/build_synth/build/output_files/afu_default.fit.summary
